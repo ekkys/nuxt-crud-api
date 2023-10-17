@@ -10,17 +10,19 @@
             <b-form @submit="store">
               <b-form-group label="Title Post">
                 <b-label>Judul</b-label>
-                <b-form-input type="text" v-model="post.title" :class="{'is-invalid': validation.title}" aria-placeholder="masukkan title post"></b-form-input>
+                <b-form-input type="text" v-model="post.title" :class="{ 'is-invalid': validation.title }"
+                  aria-placeholder="masukkan title post"></b-form-input>
                 <div v-if="validation.title" class="mt-2">
                   <b-alert show variant="danger">{{ validation.title[0] }}</b-alert>
                 </div>
               </b-form-group>
               <b-form-group label="Title Post">
                 <b-label>Content</b-label>
-                <b-form-textarea id="textarea" v-model="post.content" :class="{ 'is-invalid': validation.title }" aria-placeholder="masukkan content post"  rows="5">
+                <b-form-textarea id="textarea" v-model="post.content" :class="{ 'is-invalid': validation.title }"
+                  aria-placeholder="masukkan content post" rows="5">
                 </b-form-textarea>
                 <div v-if="validation.content" class="mt-2">
-                    <b-alert show variant="danger">{{ validation.content[0] }}</b-alert>
+                  <b-alert show variant="danger">{{ validation.content[0] }}</b-alert>
                 </div>
               </b-form-group>
               <b-button type="submit" variant="primary">SIMPAN</b-button>
@@ -33,48 +35,48 @@
 </template>
 
 <script>
-  export default {
+export default {
 
-    data() {
-      return {
-        //state post
-        post: {
-          title: '',
-          content: ''
-        },
-        //state validation
-        validation: []
-      }
-    },
-
-    methods: {
-
-      //method "store"
-      async store(e) {
-        e.preventDefault()
-
-        //send data ke Rest API
-        await this.$axios.post('/api/post', {
-
-            //data yang dikirim ke server
-            title:   this.post.title,
-            content: this.post.content
-
-          })
-          .then(() => {
-
-            //redirect ke route "post"
-            this.$router.push({
-              name: 'post'
-            })
-
-          })
-          .catch(error => {
-            //assign validation
-            this.validation = error.response.data
-          })
-      }
+  data() {
+    return {
+      //state post
+      post: {
+        title: '',
+        content: ''
+      },
+      //state validation
+      validation: []
     }
+  },
 
+  methods: {
+
+    //method "store"
+    async store(e) {
+      e.preventDefault()
+
+      //send data ke Rest API
+      await this.$axios.post('/api/post', {
+
+        //data yang dikirim ke server
+        title: this.post.title,
+        content: this.post.content
+
+      })
+        .then(() => {
+
+          //redirect ke route "post"
+          this.$router.push({
+            path: '/'
+          })
+
+        })
+        .catch(error => {
+          //assign validation
+          this.validation = error.response.data
+        })
+    }
   }
+
+}
 </script>

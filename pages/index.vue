@@ -14,6 +14,7 @@
               <template v-slot:cell(action)="row">
                 <b-button :to="{ name: 'post-edit-id', params: { id: row.item.id } }" variant="warning"
                   size="sm">EDIT</b-button>
+                <b-button variant="danger" size="sm" @click="deletePost(row)">DELETE</b-button>
               </template>
             </b-table>
 
@@ -51,7 +52,24 @@ export default {
         console.log(error.response.data)
       })
 
+  },
+
+  methods: {
+
+    async deletePost(row) {
+
+      //delete data post by ID
+      await this.$axios.delete(`/api/post/${row.item.id}`)
+        .then(() => {
+
+          //remove item array by index
+          this.posts.splice(row.index, 1);
+
+        })
+
+    }
   }
+
 
 }
 
